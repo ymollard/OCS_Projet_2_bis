@@ -12,14 +12,13 @@ titre_textes = []
 for titre in titres:
     titre_textes.append(titre.string)
 
-descriptions = soup.find_all("p")
+descriptions = soup.find_all("p")[3]
 description_textes = []
 
 for description in descriptions:
     description_textes.append(description.string)
-"#partons du principe que ça a fonctionné, et que j'ai bien collecté ma description, répétons l'opération pour une autre donnée"
 
-en_tete = ["titre", "description"]
+en_tete = ["url", "titre", "description"]
 with open("data.csv", "w") as csv_file:
     writer = csv.writer(csv_file, delimiter=",")
     writer.writerow(en_tete)

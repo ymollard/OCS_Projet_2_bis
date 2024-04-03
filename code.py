@@ -31,7 +31,7 @@ for stock in stocks:
     stocks_liste.append(stock)
 # recupération du stock du livre
 
-titres = soup.find_all("li", class_="active")
+titres = soup.find_all("h1")
 titre_textes = []
 for titre in titres:
     titre_textes.append(titre.string)
@@ -49,7 +49,9 @@ for categorie in categories:
     categories_liste.append(categorie.string)
 # recupération de la catégorie du livre
 
-avis = soup.find
+avis = soup.p['class']
+print(avis)
+
 # recupération des avis du livre
 
 # recupération de l'url de l'image du livre
@@ -58,8 +60,9 @@ avis = soup.find
 en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
 # ici upc signifie Universal Product Code
 
-with open("data.csv", "w") as csv_file:
+with open("../data.csv", "w") as csv_file:
     writer = csv.writer(csv_file, delimiter=",")
     writer.writerow(en_tete)
     for upc, titre, prix_ttc, prix_ht, stock, description, categorie in zip(upcs_liste, titre_textes, prix_ttc_liste, prix_ht_liste, stocks_liste, description_textes, categories_liste):
         writer.writerow([url, upc, titre, prix_ttc, prix_ht, stock, description, categorie])
+# création du fichier csv pour stocker les données

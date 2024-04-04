@@ -49,20 +49,19 @@ for categorie in categories:
     categories_liste.append(categorie.string)
 # recupération de la catégorie du livre
 
-avis = soup.p['class']
-print(avis)
 
 # recupération des avis du livre
 
-# recupération de l'url de l'image du livre
-
+url_img_relatif = soup.img['src']
+url_img_absolu = ("https://books.toscrape.com/" + url_img_relatif)
+#recupération de l'url de l'image du livre
 
 en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
 # ici upc signifie Universal Product Code
 
-with open("../data.csv", "w") as csv_file:
+with open("data.csv", "w") as csv_file:
     writer = csv.writer(csv_file, delimiter=",")
     writer.writerow(en_tete)
-    for upc, titre, prix_ttc, prix_ht, stock, description, categorie in zip(upcs_liste, titre_textes, prix_ttc_liste, prix_ht_liste, stocks_liste, description_textes, categories_liste):
-        writer.writerow([url, upc, titre, prix_ttc, prix_ht, stock, description, categorie])
+    for upc, titre, prix_ttc, prix_ht, stock, description, categorie, url_img in zip(upcs_liste, titre_textes, prix_ttc_liste, prix_ht_liste, stocks_liste, description_textes, categories_liste, url_img_absolu):
+        writer.writerow([url, upc, titre, prix_ttc, prix_ht, stock, description, categorie, url_img_absolu])
 # création du fichier csv pour stocker les données

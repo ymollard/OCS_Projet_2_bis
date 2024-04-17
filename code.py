@@ -76,6 +76,7 @@ for url_categorie in url_categorie_liste:
         categories_liste.append(categorie)
     # récupération du "review rating" du livre
         avis = soup2.find("p", class_="star-rating")["class"]
+        avis = str(avis)[2:13] + " " + str(avis)[17:-2]
         avis_liste.append(avis)
     # recupération de l'url de l'image du livre
         url_img = soup2.img['src']

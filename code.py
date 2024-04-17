@@ -9,7 +9,7 @@ page_site = reponse_site.text
 soup_site = BeautifulSoup(page_site, "html.parser")
 # création d'une liste de lien par catégories
 url_categorie_liste = []
-url_categories = soup_site.find_all("a")[3:53]
+url_categories = soup_site.find_all("a")[3:10]
 for url_categorie in url_categories:
     url_categorie = "https://books.toscrape.com/" + url_categorie["href"]
     url_categorie_liste.append(url_categorie)
@@ -29,6 +29,14 @@ for url_categorie in url_categorie_liste:
         url_livre = str(url_livre)
         url_livres_absolue = "https://books.toscrape.com/catalogue/" + url_livre[9:]
         url_livres_liste.append(url_livres_absolue)
+    # prise en compte de la pagination:
+    if soup.find("ul", class_="pager"):
+        lien_next = soup.find("li", class_="next")
+        if lien_next:
+            lien_next = lien_next.find("a")["href"]
+            path = '/'.join(url_categorie.split('/')[:-1]) + '/'
+            lien_next = path + lien_next
+            url_categorie_liste.append(lien_next)
 
     upcs_liste = []
     prix_ttc_liste = []
@@ -74,6 +82,7 @@ for url_categorie in url_categorie_liste:
         url_img = str(url_img)
         url_img = "https://books.toscrape.com/" + url_img[6:]
         url_img_liste.append(url_img)
+    print(avis_liste)
 
     # création du fichier csv pour stocker les données
     en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]

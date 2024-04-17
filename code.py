@@ -9,7 +9,7 @@ page_site = reponse_site.text
 soup_site = BeautifulSoup(page_site, "html.parser")
 # création d'une liste de lien par catégories
 url_categorie_liste = []
-url_categories = soup_site.find_all("a")[3:10]
+url_categories = soup_site.find_all("a")[3:6]
 for url_categorie in url_categories:
     url_categorie = "https://books.toscrape.com/" + url_categorie["href"]
     url_categorie_liste.append(url_categorie)
@@ -83,23 +83,23 @@ for url_categorie in url_categorie_liste:
         url_img = str(url_img)
         url_img = "https://books.toscrape.com/" + url_img[6:]
         url_img_liste.append(url_img)
-    print(url_categorie_liste)
 
     # création du fichier csv pour stocker les données
-    en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
-    with open("data.csv", "w") as csv_file:
-        writer = csv.writer(csv_file, delimiter=",")
-        writer.writerow(en_tete)
-        for i in range(len(url_livres_liste)):
-            url_livre = url_livres_liste[i]
-            upc = upcs_liste[i]
-            titre = titre_textes[i]
-            prix_ttc = prix_ttc_liste[i]
-            prix_ht = prix_ht_liste[i]
-            stock = stocks_liste[i]
-            description = description_textes[i]
-            categorie = categories_liste[i]
-            avis = avis_liste[i]
-            url_img = url_img_liste[i]
-            writer.writerow([url_livre, upc, titre, prix_ttc, prix_ht, stock, description, categorie, avis, url_img])
+    for url_categorie in url_categorie_liste:
+        en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
+        with open("data.csv", "w", encoding="utf-8", newline="") as csv_file:
+            writer = csv.writer(csv_file, delimiter=",")
+            writer.writerow(en_tete)
+            for i in range(len(url_livres_liste)):
+                url_livre = url_livres_liste[i]
+                upc = upcs_liste[i]
+                titre = titre_textes[i]
+                prix_ttc = prix_ttc_liste[i]
+                prix_ht = prix_ht_liste[i]
+                stock = stocks_liste[i]
+                description = description_textes[i]
+                categorie = categories_liste[i]
+                avis = avis_liste[i]
+                url_img = url_img_liste[i]
+                writer.writerow([url_livre, upc, titre, prix_ttc, prix_ht, stock, description, categorie, avis, url_img])
 

@@ -1,3 +1,5 @@
+import os.path
+
 import requests
 from bs4 import BeautifulSoup
 import csv
@@ -24,7 +26,7 @@ for url_categorie in url_categorie_liste:
         lien_next = soup.find("li", class_="next")
         if lien_next:
             lien_next = lien_next.find("a")["href"]
-            path = '/'.join(url_categorie.split('/')[:-1]) + '/'
+            path = "/".join(url_categorie.split("/")[:-1]) + "/"
             lien_next = path + lien_next
             url_categorie_liste.append(lien_next)
             url_categorie_liste.sort()
@@ -37,22 +39,32 @@ for url_categorie in url_categorie_liste:
         url_livre = str(url_livre)
         url_livres_absolue = "https://books.toscrape.com/catalogue/" + url_livre[9:]
         url_livres_liste.append(url_livres_absolue)
-
+    # création d'un objet soup par livre et récupération de la catégorie du livre
+    categories_liste = []
+    for url_livres_absolue in url_livres_liste:
+        reponse2 = requests.get(url_livres_absolue)
+        page2 = reponse2.content
+        soup2 = BeautifulSoup(page2, "html.parser")
+        categorie = soup2.find_all("a")[3].text
+        categories_liste.append(categorie)
+    # Création des dossiers utlisés par notre script
+    dossier_img = str(categorie) + "_img"
+    if not os.path.exists(dossier_img):
+        os.makedirs(dossier_img)
+    dossier_data = str(categorie) + "_data"
+    if not os.path.exists(dossier_data):
+        os.makedirs(dossier_data)
+    # Création des listes utlisées par notre script
     upcs_liste = []
     prix_ttc_liste = []
     prix_ht_liste = []
     stocks_liste = []
     titre_textes = []
     description_textes = []
-    categories_liste = []
     avis_liste = []
     url_img_liste = []
     # création d'une boucle pour parcourir les différents livres
     for url_livres_absolue in url_livres_liste:
-        reponse2 = requests.get(url_livres_absolue)
-        page2 = reponse2.content
-        soup2 = BeautifulSoup(page2, "html.parser")
-
     # recupération de l'upc du livre
         upc = soup2.find_all("td")[0].text
         upcs_liste.append(upc)
@@ -71,9 +83,6 @@ for url_categorie in url_categorie_liste:
     # récupération de la description du livre
         description = soup2.find_all("p")[3].text
         description_textes.append(description)
-    # recupération de la catégorie du livre
-        categorie = soup2.find_all("a")[3].text
-        categories_liste.append(categorie)
     # récupération du "review rating" du livre
         avis = soup2.find("p", class_="star-rating")["class"]
         avis = str(avis)[2:13] + " " + str(avis)[17:-2]
@@ -82,12 +91,21 @@ for url_categorie in url_categorie_liste:
         url_img = soup2.img['src']
         url_img = str(url_img)
         url_img = "https://books.toscrape.com/" + url_img[6:]
+        reponse_img = requests.get(url_img)
+        if reponse_img.status_code == 200:
+            titre = titre.replace(":", "-")
+            path_img = os.path.join(dossier_img, titre + ".jpg")
+            with open(path_img, "wb") as fichier_img:
+                fichier_img.write(reponse_img.content)
+        else:
+            print("Erreur lors du téléchargement de l'image")
         url_img_liste.append(url_img)
 
     # création du fichier csv pour stocker les données
     for url_categorie in url_categorie_liste:
         en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
-        with open("data.csv", "w", encoding="utf-8", newline="") as csv_file:
+        path_data = os.path.join(dossier_data, titre + ".csv")
+        with open(path_data, "w", encoding="utf-8", newline="") as csv_file:
             writer = csv.writer(csv_file, delimiter=",")
             writer.writerow(en_tete)
             for i in range(len(url_livres_liste)):
@@ -102,4 +120,3 @@ for url_categorie in url_categorie_liste:
                 avis = avis_liste[i]
                 url_img = url_img_liste[i]
                 writer.writerow([url_livre, upc, titre, prix_ttc, prix_ht, stock, description, categorie, avis, url_img])
-

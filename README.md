@@ -11,7 +11,9 @@ Dernière mise-à-jour le : [2024-04-19].
 # INFORMATIONS METHODOLOGIQUES
 
 ## Conditions environnementales / experimentales : 
-Veuillez vous assurer de la qualité de votre connexion internet et que l'environnement de travail comprend les paquets python cités dans le fichier "requirements.txt".
+Veuillez vous assurer de la qualité de votre connexion internet. Il est recommandé de créer un environnement virtuel et d'y installer les paquets python cités dans le fichier "requirements.txt".
+
+Pour céer un environnement virtuel tapez :    python -m venv <environment name>
 
 ## Description des sources et méthodes utilisées pour collecter et générer les données :
 <Si applicable, décrire les standards, les informations de calibration, les instruments utilisés, etc.>
@@ -52,4 +54,4 @@ Pour chaque nom de variable ou entête de colonne, indiquer :
     -- format, si applicable, e.g. date>
 
 ## Informations additionnelles : 
-<Toute information que vous jugez utile pour mieux comprendre le fichier>
+Il s'agit d'un script conçu, et adapté à l'architecture du site "books.toscrape.com", si celle-ci venait à changer, le script pourrait rencontrer des dysfonctionnements.

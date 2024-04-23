@@ -122,7 +122,7 @@ for url_categorie in url_categorie_liste:
     # création du fichier csv pour stocker les données
     for url_categorie in url_categorie_liste:
         en_tete = ["product_page_url", "upc", "title", "price_including_tax", "price_excluding_tax", "number_avaible", "product_description", "category", "review_rating", "image_url"]
-        path_data = os.path.join(dossier_data, titre + ".csv")
+        path_data = os.path.join(dossier_data, categorie + ".csv")
         with open(path_data, "w", encoding="utf-8", newline="") as csv_file:
             writer = csv.writer(csv_file, delimiter=",")
             writer.writerow(en_tete)

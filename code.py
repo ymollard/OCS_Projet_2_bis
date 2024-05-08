@@ -23,13 +23,7 @@ for url_categorie in url_categorie_liste:
     soup = BeautifulSoup(page, "html.parser")
 
     # prise en compte de la pagination:
-    if soup.find("ul", class_="pager"):
-        lien_next = soup.find("li", class_="next")
-        if lien_next:
-            lien_next = lien_next.find("a")["href"]
-            path = "/".join(url_categorie.split("/")[:-1]) + "/"
-            lien_next = path + lien_next
-            url_categorie_liste.append(lien_next)
+    d
 
     # récupération de l'url des différents livres de la page
     url_livres_liste = []

@@ -10,48 +10,96 @@ Dernière mise-à-jour le : [2024-04-19].
  
 # INFORMATIONS METHODOLOGIQUES
 
-## Conditions environnementales / experimentales : 
+## Conditions environnementales / expérimentales : 
 Veuillez vous assurer de la qualité de votre connexion internet. Il est recommandé de créer un environnement virtuel et d'y installer les paquets python cités dans le fichier "requirements.txt".
 
-Pour céer un environnement virtuel tapez :    python -m venv <environment name>
+Pour créer un environnement virtuel tapez dans un terminal:
+
+    python -m venv <environment name>
+
+Ensuite, pour activer cet environnement :
+
+    <nom_de_l'environnement>\Scripts\activate (sous Windows)
+
+    source <nom_de_l'environnement>/bin/activate (sous macOS/Linux)
+
+Enfin, installez les dépendances :
+
+    pip install -r requirements.txt
 
 ## Description des sources et méthodes utilisées pour collecter et générer les données :
-<Si applicable, décrire les standards, les informations de calibration, les instruments utilisés, etc.>
+
+Le script extrait les données des livres listés sur le site "books.toscrape.com". Il parcourt les différentes catégories de livres, récupère les URLs des pages de chaque livre, et collecte des informations telles que le titre, le prix, la disponibilité, la description, la catégorie, l'évaluation et l'image associée.
 
 ## Méthodes de traitement des données :
-<Si applicable, décrire le traitement des données et inclure tout détail pouvant être important pour réutiliser ou reproduire les données. Commenter chaque étape.
-Par exemple, inclure les méthodes de nettoyage et d’analyse ; les codes et/ou algorithmes ; les procédés d’anonymisation ou de pseudonymisation pour les données sensibles concernant les humains ou des espèces menacées>
 
-## Procédures d’assurance-qualité appliquées sur les données :
+    - Extraction des URls des catégories de livres.
 
-## Autres informations contextuelles :
-<Toute information que vous considérez importante pour évaluer la qualité du jeu de données ou pour sa réutilisation : par exemple, des informations concernant les logiciels nécessaires pour interpréter les données.
-Si applicable et non-inclus préalablement, ajouter les noms complets et les versions de tous les logiciels, de tous les paquets et de toutes les librairies nécessaires pour lire et interpréter les données *e.g.* pour compiler les scripts.>
+    - Extraction des URLS de chaque livre dans chaque catégorie.
+
+    - Récupération des données souhaitées pour chaque livre: (titre, prix, description, stock, avis, etc.).
+
+    - Sauvegarde des données dans des fichiers csv distincts pour chaque catégorie.
+
+    - Téléchargement des images de chaque livres. 
+
+## Procédures d’assurance qualité appliquées sur les données :
+
+Les URLs collectées sont contrôlées pendant la collecte de données. Les téléchargements, ainsi que les réponses HTTP sont vérifiés, de sorte à assurer la validité des données sauvegardées. Les caractères spéciaux ont été pris en compte et modifiés, pour éviter qu'ils ne générent des conflits dans la nomination des fichiers images notamment. Tout problème est signalé dans la console lors de l'exécution.
+
 
 # APERCU DES DONNEES ET FICHIERS
 
 
 ## Convention de nommage des fichiers :
 
+Les fichiers de données sont nommés selon le schéma suivant : <categorie>_data.csv pour les données et <categorie>_img/ pour les images.
+
 ## Arborescence/plan de classement des fichiers :
 
+Books_to_Scrape_Datas/
+    Data/
+        <catégorie>_data/
+            <catégorie>.csv
+
+    Images/
+        <catégorie>_img/
+            <titre_du_livre>.jpg
 
 # INFORMATIONS SPECIFIQUES AUX DONNEES POUR : [NOM DU FICHIER]
 
-<Le cas échéant, reproduire cette section pour chaque dossier ou fichier.
-Les éléments se répétant peuvent être expliqués dans une section initiale commune.>
 
-<Pour les données tabulaires, fournir un dictionnaire des données/manuel de codage contenant les informations suivantes :>
-## Liste des variables/entêtes de colonne :
+## Liste des variables/en-têtes de colonne :
 
-Pour chaque nom de variable ou entête de colonne, indiquer :
- 
-    -- le nom complet de la variable sous forme “lisible par les humains” ; 
-    -- la description de la variable ; 
-    -- unité de mesure, si applicable ; 
-    -- séparateur décimal *i.e.* virgule ou point, si applicable ; 
-    -- valeurs autorisées : liste ou plage de valeurs, ou domaine ;
-    -- format, si applicable, e.g. date>
+- "product_page_url" : URL de la page du produit
+
+- "upc" : Universal Product Code (code produit unique en français)
+
+- "title" : Titre du livre
+
+- "price_including_tax" : Prix TTC
+
+- "price_excluding_tax" : Prix HT
+
+- "number_avaible" : Quantité disponible
+
+- "product_description" : Description du livre
+
+- "category" : Catégorie du livre
+
+- "review_rating" : Note du livre sur 5
+
+- "image_url" : URL de l'image de couverture du livre
+
+
 
 ## Informations additionnelles : 
-Il s'agit d'un script conçu, et adapté à l'architecture du site "books.toscrape.com", si celle-ci venait à changer, le script pourrait rencontrer des dysfonctionnements.
+
+Il s'agit d'un script conçu et adapté à l'architecture du site "books.toscrape.com". Si celle-ci venait à changer, le script pourrait rencontrer des dysfonctionnements. 
+
+Il est important de noter que les paquets suivants sont nécessaires pour le bon fonctionnement de ce script : 
+    - Python 3.x
+    - BeautifulSoup4
+    - requests
+    - csv
+

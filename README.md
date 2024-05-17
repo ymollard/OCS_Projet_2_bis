@@ -27,6 +27,10 @@ Enfin, installez les dépendances :
 
     pip install -r requirements.txt
 
+Indique comment lancer ton projet. Bien sûr, ce projet est très simple donc n'importe quel pythoniste saura le lancer sans aide mais c'est une bonne idée de donner un exemple explicite. Je pense qu'actuellement tu le lances en cliquant sur le bouton vert de Pycharm, mais la commande générale est python script.py à faire après l'installation du `requirements.txt`
+
+Au lieu de nommer ton script `script.py`, choisis un nom plus précis : Par exemple `drop-bomb-on-pentagon.py` si tu veux attirer l'attention de la NSA, ou bien `scrap-online-books.py` si à tout hasard le rôle de ton script était de scraper des données de livres en ligne. Cela sera particulierement utile si ton projet est amené à grossir et qu'il y a donc plusieurs scripts, il faut les différencier.
+
 ## Description des sources et méthodes utilisées pour collecter et générer les données :
 
 Le script extrait les données des livres listés sur le site "books.toscrape.com". Il parcourt les différentes catégories de livres, récupère les URLs des pages de chaque livre, et collecte des informations telles que le titre, le prix, la disponibilité, la description, la catégorie, l'évaluation et l'image associée.
@@ -45,8 +49,8 @@ Le script extrait les données des livres listés sur le site "books.toscrape.co
 
 ## Procédures d’assurance qualité appliquées sur les données :
 
-Les URLs collectées sont contrôlées pendant la collecte de données. Les téléchargements, ainsi que les réponses HTTP sont vérifiés, de sorte à assurer la validité des données sauvegardées. Les caractères spéciaux ont été pris en compte et modifiés, pour éviter qu'ils ne générent des conflits dans la nomination des fichiers images notamment. Tout problème est signalé dans la console lors de l'exécution.
-
+ Les téléchargements, ainsi que les réponses HTTP sont vérifiés, de sorte à assurer la validité des données sauvegardées. Les caractères spéciaux ont été pris en compte et modifiés, pour éviter qu'ils ne générent des conflits dans la nomination des fichiers images notamment. Tout problème est signalé dans la console lors de l'exécution.
+Que veut dire "Les URLs collectées sont contrôlées pendant la collecte de données." ? Si tu parles de la vérification des codes de statut des réponses HTTP, ce ne sont pas vraiment "les URL" qui sont contrôlées, mais le code de réponse. Et c'est déjà écrit dans la phrase qui suit, il manque juste le terme "code" qui désigne véritablement le numéro (par exemple le code 404 = non trouvé).
 
 # APERCU DES DONNEES ET FICHIERS
 
@@ -66,7 +70,7 @@ Books_to_Scrape_Datas/
         <catégorie>_img/
             <titre_du_livre>.jpg
 
-# INFORMATIONS SPECIFIQUES AUX DONNEES POUR : [NOM DU FICHIER]
+# INFORMATIONS SPECIFIQUES AUX DONNEES POUR : Mais de quel fichier s'agit-il ?
 
 
 ## Liste des variables/en-têtes de colonne :
@@ -97,9 +101,5 @@ Books_to_Scrape_Datas/
 
 Il s'agit d'un script conçu et adapté à l'architecture du site "books.toscrape.com". Si celle-ci venait à changer, le script pourrait rencontrer des dysfonctionnements. 
 
-Il est important de noter que les paquets suivants sont nécessaires pour le bon fonctionnement de ce script : 
-    - Python 3.x
-    - BeautifulSoup4
-    - requests
-    - csv
+Cette partie sur les dépendances doit être regroupées avec la partie sur requirements.txt car c'est justement le rôle de requirements.txt de lister les dépendances. Toutefois ça ne t'empêche pas de les lsiter dans le README, mais autant le faire au même endroit (et pas à la fin du README car c'est plutôt un prérequis ... donc vers le début).
 
